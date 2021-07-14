@@ -1,0 +1,41 @@
+﻿@page "/"
+
+<h1>Todo List</h1>
+
+<div class="todo-list">
+    @foreach (var todo in Todos.OrderBy(t => t.Done))
+    {
+        <div class="todo">
+            <input type="checkbox" @bind="@todo.Done" class="form-check-input"/>
+            <div class="label flex-grow-1 mx-3">
+            @todo.Label
+                </div>
+            <button class="btn btn-secondary btn-sm" @onclick="() => Remove(todo)">Remove</button>
+            </div>
+    }
+    <AddTodoForm OnAdd="Add"/>
+</div>
+
+
+@code {
+    private class Todo
+    {
+        public bool Done { get; set; }
+        public string Label { get; set; }
+    }
+
+    private List<Todo> Todos = new List<Todo>();
+
+    private void Add(string label)
+    {
+        Todos.Add(new Todo
+        {
+            Label = label
+        });
+    }
+
+    private void Remove(Todo todo)
+    {
+        Todos.Remove(todo);
+    }
+}
